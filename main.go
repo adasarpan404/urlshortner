@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -14,6 +15,7 @@ import (
 )
 
 func main() {
+	fmt.Printf("Testing Arpan Das")
 	// Initialize database
 	database.InitDatabase()
 	db := database.DB
