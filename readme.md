@@ -84,3 +84,13 @@ If using go-sqlite3 and encountering CGO issues, you can:
     ```bash
     go get modernc.org/sqlite
     ```
+
+## Future Enhancements
+
+- Add expiration for short URLs.
+
+- Allow users to create custom short codes.
+
+- Implement analytics for tracking clicks.
+
+- Add user authentication for managing URLs.
