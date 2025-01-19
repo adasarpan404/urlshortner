@@ -48,3 +48,11 @@ Request Body:
   "url": "https://www.example.com"
 }
 ```
+
+### 2. Redirect to Original URL
+
+**GET** /{shortcode}
+
+- Replace {shortCode} with the short code generated from the /shorten endpoint.
+
+- The service will redirect to the original URL.
