@@ -34,3 +34,17 @@ go mod tidy
 ```bash
 go run main.go
 ```
+
+## Endpoints
+
+### 1. Shorten URL
+
+**POST** `/shorten`
+
+Request Body:
+
+```json
+{
+  "url": "https://www.example.com"
+}
+```
