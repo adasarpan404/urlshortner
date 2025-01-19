@@ -22,3 +22,15 @@ A simple URL Shortener built using Go, GORM, and SQLite. This application allows
 git clone https://github.com/yourusername/url-shortener.git
 cd url-shortener
 ```
+
+### Install Dependencies
+
+```bash
+go mod tidy
+```
+
+### Run the application
+
+```bash
+go run main.go
+```
