@@ -56,3 +56,31 @@ Request Body:
 - Replace {shortCode} with the short code generated from the /shorten endpoint.
 
 - The service will redirect to the original URL.
+
+## How It Works
+
+### 1. Generate a short url
+
+- A random 6-character alphanumeric string is generated for the short URL.
+
+- The mapping between the short URL and the original URL is saved in the SQLite database.
+
+### 2. Redirect To The Original URL
+
+- When a user accesses the short URL, the application queries the database for the original URL and redirects the user.
+
+## Configuration
+
+If using go-sqlite3 and encountering CGO issues, you can:
+
+1. Enable CGO
+
+    ```bash
+    export CGO_ENABLED=1
+    ```
+
+2. Switch to a pure Go SQLite driver:
+
+    ```bash
+    go get modernc.org/sqlite
+    ```
