@@ -75,17 +75,19 @@ If using go-sqlite3 and encountering CGO issues, you can:
 
 1. Enable CGO
 
-    ```bash
-    export CGO_ENABLED=1
-    ```
+   ```bash
+   export CGO_ENABLED=1
+   ```
 
 2. Switch to a pure Go SQLite driver:
 
-    ```bash
-    go get modernc.org/sqlite
-    ```
+   ```bash
+   go get modernc.org/sqlite
+   ```
 
 ## Future Enhancements
+
+- Create authentication
 
 - Add expiration for short URLs.
 
