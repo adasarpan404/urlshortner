@@ -16,19 +16,17 @@ import (
 
 func main() {
 	fmt.Printf("Testing Arpan Das")
-	// Initialize database
+
 	database.InitDatabase()
 	db := database.DB
 
-	// Run migrations
-	err := db.AutoMigrate(&models.URL{})
+	err := db.AutoMigrate(&models.URL{}, &models.User{})
 	if err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
 
 	rand.Seed(time.Now().UnixNano())
 
-	// Endpoint: Shorten URL
 	http.HandleFunc("/shorten", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
