@@ -8,6 +8,7 @@ import (
 	"github.com/adasarpan404/urlshortner/models"
 	"github.com/adasarpan404/urlshortner/utils"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -45,5 +46,27 @@ func main() {
 		ctx.JSON(http.StatusOK, resp)
 	})
 
-	r.GET("/:shortCode")
+	r.GET("/:shortCode", func(ctx *gin.Context) {
+		shortCode := ctx.Param("shortCode")
+		if shortCode == "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Short code not provided"})
+			return
+		}
+
+		var url models.URL
+		if err := db.Where("short_code = ?", shortCode).First(&url).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				ctx.JSON(http.StatusNotFound, gin.H{"error": "Short URL not found"})
+			} else {
+				ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+			}
+			return
+		}
+		ctx.Redirect(http.StatusFound, url.LongURL)
+	})
+
+	log.Println("Server is running on http://localhost:8080")
+	if err := r.Run(":8080"); err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }
