@@ -94,5 +94,3 @@ If using go-sqlite3 and encountering CGO issues, you can:
 - Allow users to create custom short codes.
 
 - Implement analytics for tracking clicks.
-
-- Add user authentication for managing URLs.
