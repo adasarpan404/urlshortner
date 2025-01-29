@@ -36,7 +36,7 @@ func ShortenUrl(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
-func GET(c *gin.Context) {
+func RedirectUrl(c *gin.Context) {
 	shortCode := c.Param("shortCode")
 
 	if shortCode == "" {
