@@ -1,5 +1,0 @@
-package clearDB
-
-func main() {
-
-}
