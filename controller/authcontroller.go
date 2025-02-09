@@ -13,6 +13,7 @@ func hashPassword(password string) string {
 		log.Panic(err)
 	}
 	return string(bytes)
+
 }
 
 func verifyPassword(providedPassword string, userPassword string) (bool, string) {
