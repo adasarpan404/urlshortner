@@ -3,6 +3,7 @@ package utils
 import (
 	"time"
 
+	"github.com/adasarpan404/urlshortner/environment_variables"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -13,7 +14,7 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func generateToken(email string, firstname string, id string) (string, error) {
+func GenerateToken(email string, firstname string, id string) (string, error) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims := &Claims{
 		FirstName: firstname,
@@ -25,9 +26,23 @@ func generateToken(email string, firstname string, id string) (string, error) {
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	tokenString, err := token.SignedString([]byte(environment.SECRET_KEY))
+	tokenString, err := token.SignedString([]byte(environment_variables.SECRET_KEY))
 	if err != nil {
 		return "", err
 	}
 	return tokenString, nil
+}
+
+func VerifyToken(signedToken string) (claim *Claims, msg string) {
+	token, err := jwt.ParseWithClaims(signedToken, &Claims{}, func(t *jwt.Token) (interface{}, error) { return []byte(environment.SECRET_KEY), nil })
+	if err != nil {
+		msg = err.Error()
+		return
+	}
+	claims, ok := token.Claims.(*Claims)
+	if !ok {
+		msg = err.Error()
+		return
+	}
+	return claims, msg
 }
