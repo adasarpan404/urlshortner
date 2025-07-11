@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"net/url"
 
 	"github.com/adasarpan404/urlshortner/database"
 	"github.com/adasarpan404/urlshortner/models"
@@ -20,11 +21,27 @@ func ShortenUrl(c *gin.Context) {
 		return
 	}
 
-	shortCode := utils.GenerateShortCode()
+	// Validate URL format
+	_, err := url.ParseRequestURI(req.URL)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid URL format"})
+		return
+	}
 
-	url := &models.URL{ShortCode: shortCode, LongURL: req.URL}
+	// Generate unique short code (retry on collision)
+	var shortCode string
+	var urlModel models.URL
+	for {
+		shortCode = utils.GenerateShortCode()
+		// Check if short code already exists
+		if err := database.DB.Where("short_code = ?", shortCode).First(&urlModel).Error; err == gorm.ErrRecordNotFound {
+			break // Unique short code found
+		}
+	}
 
-	if err := database.DB.Create(url).Error; err != nil {
+	urlRecord := &models.URL{ShortCode: shortCode, LongURL: req.URL}
+
+	if err := database.DB.Create(urlRecord).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed To save URL"})
 		return
 	}
