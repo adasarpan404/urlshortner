@@ -1,8 +1,14 @@
 package utils
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
 
 func GenerateShortCode() string {
+	// Seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+	
 	const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	code := make([]byte, 6)
 	for i := range code {
